@@ -1,9 +1,8 @@
-BIN_NAME=tiler
 SRC_DIR=tiler
 
 zip:
 	cd $(SRC_DIR) && \
-	go build -o $(BIN_NAME) cmd/main.go && \
-	zip tiler_code.zip $(BIN_NAME) && \
-	rm $(BIN_NAME)
+	GOOS=linux GOARCH=amd64 go build -tags lambda.norpc -o bootstrap cmd/main.go && \
+	zip tiler_code.zip bootstrap && \
+	rm bootstrap
 	@echo "Build complete: $(SRC_DIR)/tiler_code.zip"
