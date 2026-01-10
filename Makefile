@@ -1,4 +1,13 @@
 SRC_DIR=tiler
+TF_DIR=architecture
+
+# start Localstack container for local dev
+up:
+	docker-compose up -d
+
+# stop Localstack container
+down:
+	docker-compose down
 
 zip:
 	cd $(SRC_DIR) && \
@@ -7,3 +16,8 @@ zip:
 	mv tiler_code.zip ../tiler_code.zip && \
 	rm bootstrap
 	@echo "Build complete: $(SRC_DIR)/tiler_code.zip"
+
+# deploy with terraform
+deploy: zip
+	terraform -chdir=$(TF_DIR) init
+	terraform -chdir=$(TF_DIR) apply -auto-approve

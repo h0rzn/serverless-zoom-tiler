@@ -1,4 +1,13 @@
 .DS_STORE
-volume/*
 assets/*
 tiler_code.zip
+
+
+#
+# TERRAFORM
+#
+architecture/.terraform/
+architecture/*.tfstate
+architecture/*.tfstate.backup
+# remove later
+architecture/.terraform.lock.hcl
