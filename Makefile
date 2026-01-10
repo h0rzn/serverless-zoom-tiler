@@ -4,5 +4,6 @@ zip:
 	cd $(SRC_DIR) && \
 	GOOS=linux GOARCH=amd64 go build -tags lambda.norpc -o bootstrap cmd/main.go && \
 	zip tiler_code.zip bootstrap && \
+	mv tiler_code.zip ../tiler_code.zip && \
 	rm bootstrap
 	@echo "Build complete: $(SRC_DIR)/tiler_code.zip"

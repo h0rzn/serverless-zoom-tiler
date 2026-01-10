@@ -19,10 +19,11 @@ awslocal lambda add-permission \
     --principal s3.amazonaws.com \
     --source-arn arn:aws:s3:::sample-bucket
 
+sleep 2
 
 awslocal s3api put-bucket-notification-configuration \
     --bucket sample-bucket \
-    --notification-configuration file://scripts/notification_trigger.json
+    --notification-configuration file://architecture/notification_trigger.json
 
 
 # show logs
