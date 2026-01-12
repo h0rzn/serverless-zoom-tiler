@@ -47,7 +47,7 @@ func handleRequest(ctx context.Context, event json.RawMessage) error {
 		slog.Error("Failed to process file", "error", err)
 	}
 	// TODO: handle error
-	defer internal.Cleanup()
+	// defer internal.Cleanup()
 
 	return nil
 }

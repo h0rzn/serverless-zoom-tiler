@@ -39,6 +39,20 @@ func Download(client *s3.Client, ctx context.Context, bucketName string, objectK
 	return err
 }
 
+// Download retrieves an object from the S3 bucket and returns a ReadClose for it.
+// It requires a valid S3 client, a context for cancellation, and the bucket/key identifiers.
+func DownloadReader(ctx context.Context, client *s3.Client, bucketName string, objectKey string) (io.ReadCloser, error) {
+	output, err := client.GetObject(ctx, &s3.GetObjectInput{
+		Bucket: &bucketName,
+		Key:    &objectKey,
+	})
+	if err != nil {
+		log.Printf("Failed to get object: %s: %v\n", objectKey, err)
+		return nil, err
+	}
+	return output.Body, nil
+}
+
 // UploadByFilename reads a file from the local path and uploads it to the given S3 bucket.
 // Existence of the file inside the bucket is *not* explicitly checked afterwards.
 func UploadByFilename(client *s3.Client, ctx context.Context, bucketName string, objectKey string, filename string) error {
