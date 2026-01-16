@@ -1,6 +1,6 @@
 module gitlab.rz.htw-berlin.de/cloud-computing/2025_26_WiSe/group13/serverless-zoom-tiler/tiler
 
-go 1.23
+go 1.24.0
 
 toolchain go1.24.11
 
@@ -25,4 +25,17 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.35.12 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.41.5 // indirect
 	github.com/aws/smithy-go v1.24.0 // indirect
+	github.com/clipperhouse/uax29/v2 v2.2.0 // indirect
+	github.com/disintegration/imaging v1.6.2 // indirect
+	github.com/hhrutter/lzw v1.0.0 // indirect
+	github.com/hhrutter/pkcs7 v0.2.0 // indirect
+	github.com/hhrutter/tiff v1.0.2 // indirect
+	github.com/lvisei/image2tiles v0.0.4 // indirect
+	github.com/mattn/go-runewidth v0.0.19 // indirect
+	github.com/pdfcpu/pdfcpu v0.11.1 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
+	golang.org/x/crypto v0.43.0 // indirect
+	golang.org/x/image v0.32.0 // indirect
+	golang.org/x/text v0.30.0 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

@@ -3,7 +3,10 @@ package internal
 import (
 	"archive/zip"
 	"bytes"
+	"fmt"
 	"io"
+
+	"github.com/lvisei/image2tiles"
 )
 
 type TilingOptions struct {
@@ -41,4 +44,13 @@ func Tile(reader io.ReadCloser, opts TilingOptions) (TilingResult, error) {
 	return TilingResult{
 		ZipData: bytes.NewReader(buf.Bytes()),
 	}, nil
+}
+
+func tile() {
+	fname := ""
+	converter := image2tiles.NewConverter()
+
+	if err := converter.Prepare(fname, "#fff"); err != nil {
+		fmt.Println(err)
+	}
 }
