@@ -32,7 +32,7 @@ Management der Cloud-Infrastruktur sowie Deploy-Logik werden reproduzierbar übe
 | **AWS IAM** | Zugriffskontrolle | Verwaltung von Nutzern und Policies für Dev-User und Lambda/S3 |
 
 ## Architektur
-![[docs/arch.png]]
+![Architektur Diagramm](./docs/arch.png)
 
 ## Erwartetes Ergebnis / Testfall
 Die erfolgreiche Verarbeitung eines Grundrisses in ein ZIP-Archiv welches erfolgreich in den S3 Bucket hochgeladen ist (`processed/`) gilt als erwartetes Ergebnis:
