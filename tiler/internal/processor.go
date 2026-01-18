@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"image"
 	"log/slog"
-	"os"
 	"path/filepath"
 	"strings"
 
@@ -49,51 +48,27 @@ func ProcessFile(ctx context.Context, s3Client *s3.Client, bucketName string, ob
 	return nil
 }
 
-func ProcessEfficient(ctx context.Context, s3Client *s3.Client, bucket, key string) error {
-	localFile := dlBasePath + filepath.Base(key)
-	Download(s3Client, ctx, bucket, key, localFile)
-
-	outDir, err := TileDisk(localFile)
-	if err != nil {
-		return err
-	}
-
-	zipData, err := ZipDir(outDir)
-	if err != nil {
-		return nil
-	}
-
-	return Upload(ctx, s3Client, bucket, "processed/"+key+".zip", zipData)
-}
-
 func ProcessFileEfficient(ctx context.Context, s3Client *s3.Client, bucketName string, objectKey string) error {
 	slog.Info("Starting Efficient Processing", "bucket", bucketName, "key", objectKey)
 
-	// 1. S3 Download als Stream
 	fileReader, err := DownloadReader(ctx, s3Client, bucketName, objectKey)
 	if err != nil {
 		return fmt.Errorf("download failed: %w", err)
 	}
 	defer fileReader.Close()
 
-	// 2. Bild in den RAM dekodieren
 	img, _, err := image.Decode(fileReader)
 	if err != nil {
 		return fmt.Errorf("image decode failed: %w", err)
 	}
 
-	// 3. Tiling-Prozess starten
-	// Wir puffern den Channel leicht ab (z.B. 50), um Workern Spielraum zu geben
 	tileChan := make(chan TileData, 50)
 
-	// In einer Goroutine starten, damit wir im Hauptthread lesen können
 	var tilingErr error
 	go func() {
 		tilingErr = TileImage(img, tileChan)
 	}()
 
-	// 4. Kacheln verarbeiten (z.B. in eine ZIP schreiben oder einzeln hochladen)
-	// Da deine alten Funktionen eine ZIP hochladen, bauen wir hier eine im RAM
 	zipBuf := new(bytes.Buffer)
 	zipWriter := zip.NewWriter(zipBuf)
 
@@ -116,13 +91,7 @@ func ProcessFileEfficient(ctx context.Context, s3Client *s3.Client, bucketName s
 		return fmt.Errorf("tiling error: %w", tilingErr)
 	}
 
-	// 5. Upload der fertigen ZIP
 	processedKey := "processed/" + filepath.Base(objectKey) + ".zip"
 	r := bytes.NewReader(zipBuf.Bytes())
 	return Upload(ctx, s3Client, bucketName, processedKey, r)
-}
-
-// TODO: USE ME
-func Cleanup(localFile string) error {
-	return os.Remove(localFile)
 }
