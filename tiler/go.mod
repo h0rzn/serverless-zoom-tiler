@@ -32,6 +32,7 @@ require (
 	github.com/hhrutter/tiff v1.0.2 // indirect
 	github.com/lvisei/image2tiles v0.0.4 // indirect
 	github.com/mattn/go-runewidth v0.0.19 // indirect
+	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646 // indirect
 	github.com/pdfcpu/pdfcpu v0.11.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	golang.org/x/crypto v0.43.0 // indirect

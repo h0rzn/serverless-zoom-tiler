@@ -2,11 +2,20 @@ resource "aws_lambda_function" "tiling_handler" {
   function_name = "S3TilingHandler"
   runtime       = "provided.al2023"
   handler       = "bootstrap"
-  role          = "arn:aws:iam::000000000000:role/lambda-ex"
+  # role          = "arn:aws:iam::000000000000:role/lambda-ex"
+  role = aws_iam_role.lambda_exec_role.arn
 
   filename      = "${path.module}/../tiler_code.zip"
 
   source_code_hash = filebase64sha256("${path.module}/../tiler_code.zip")
+
+  memory_size = 512 # mb
+
+  ephemeral_storage {
+    size = 512 # mb
+  }
+
+  timeout     = 15 # s
 }
 
 resource "aws_lambda_permission" "allow_s3" {

@@ -23,8 +23,6 @@ func init() {
 }
 
 func handleRequest(ctx context.Context, event json.RawMessage) error {
-	slog.Info("handleRequest")
-
 	var info events.S3Event
 	if err := json.Unmarshal(event, &info); err != nil {
 		slog.Error("Failed to unmarshal event")
@@ -42,7 +40,9 @@ func handleRequest(ctx context.Context, event json.RawMessage) error {
 	objectKey := record.S3.Object.Key
 	slog.Info("++DEBUG++", "bucket", bucketName, "key", objectKey)
 
-	err := internal.ProcessFile(ctx, s3Client, bucketName, objectKey)
+	// err := internal.ProcessFile(ctx, s3Client, bucketName, objectKey)
+	// err := internal.ProcessFileDisk(ctx, s3Client, bucketName, objectKey)
+	err := internal.ProcessFileEfficient(ctx, s3Client, bucketName, objectKey)
 	if err != nil {
 		slog.Error("Failed to process file", "error", err)
 	}
@@ -54,4 +54,25 @@ func handleRequest(ctx context.Context, event json.RawMessage) error {
 
 func main() {
 	lambda.Start(handleRequest)
+
+	// ex, err := os.Executable()
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// exPath := filepath.Dir(ex)
+	// fmt.Println(exPath)
+	// converter := image2tiles.NewConverter()
+	//
+	// err = converter.Prepare("../../assets/gr1.jpg", "#00000000")
+	// if err != nil {
+	// 	slog.Error("error", err)
+	// }
+	//
+	// err = converter.Execute([2]int{256, 256}, true, 75, "out/level-%d/%d-%d.jpg")
+	// if err != nil {
+	// 	slog.Error("error", err)
+	// }
+	//
+	// fmt.Println(converter.MaxZoom, converter.TileSize)
+	//
 }

@@ -17,7 +17,11 @@ zip:
 	rm bootstrap
 	@echo "Build complete: $(SRC_DIR)/tiler_code.zip"
 
+
+# init terraform
+init:
+	terraform -chdir=$(TF_DIR) init
+
 # deploy with terraform
 deploy: zip
-	terraform -chdir=$(TF_DIR) init
-	terraform -chdir=$(TF_DIR) apply -auto-approve
+	terraform -chdir=$(TF_DIR) apply -auto-approve -replace="aws_lambda_function.tiling_handler"

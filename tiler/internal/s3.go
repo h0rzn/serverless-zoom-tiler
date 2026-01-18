@@ -82,6 +82,20 @@ func Upload(ctx context.Context, client *s3.Client, bucketName string, objectKey
 	return nil
 }
 
+// func UploadBuffer(ctx context.Context, client *s3.Client, bucketName string, objectKey string, data io.Reader) error {
+// 	_, err := client.PutObject(ctx, &s3.PutObjectInput{
+// 		Bucket: &bucketName,
+// 		Key:    &objectKey,
+// 		Body:   data,
+// 	})
+// 	if err != nil {
+// 		log.Printf("Failed to put object %s: %v\n", objectKey, err)
+// 		return err
+// 	}
+//
+// 	return nil
+// }
+
 // writeLocalFile is a helper that creates a local file and writes the contents
 // of an io.ReadCloser into it.
 func writeLocalFile(filename string, data io.ReadCloser) error {

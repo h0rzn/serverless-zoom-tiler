@@ -1,3 +1,3 @@
 resource "aws_s3_bucket" "s3" {
-  bucket = "sample-bucket"
+  bucket = "cc2526-tiling-storage"
 }
